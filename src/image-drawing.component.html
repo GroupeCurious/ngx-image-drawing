@@ -1,0 +1,30 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<canvas id="canvas"></canvas>
+<div class="toolbar">
+    <div class="tools">
+        <div class="row">
+            <i class="material-icons btn" [class.selected]="currentTool == 'brush'" (click)="selectTool('brush')" title="Pinceau">brush</i>
+            <span class="size small btn" [class.selected]="currentSize == 'small'" (click)="selectDrawingSize('small')"
+                title="Taille: petit"></span>
+            <span class="size medium btn" [class.selected]="currentSize == 'medium'" (click)="selectDrawingSize('medium')"
+                title="Taille: moyen"></span>
+            <span class="size large btn" [class.selected]="currentSize == 'large'" (click)="selectDrawingSize('large')"
+                title="Taille: grand"></span>
+            <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()" title="Annuler">undo</i>
+            <i class="material-icons btn" [class.disabled]="!canRedo" (click)="redo()" title="Refaire">redo</i>
+            <i class="material-icons btn" (click)="clearCanvas()" title="Effacer tout">delete</i>
+        </div>
+        <div class="row">
+            <div class="color black" [class.selected]="currentColor == 'black'" (click)="selectColor('black')" title="Noir"></div>
+            <div class="color white" [class.selected]="currentColor == 'white'" (click)="selectColor('white')" title="Blanc"></div>
+            <div class="color yellow" [class.selected]="currentColor == 'yellow'" (click)="selectColor('yellow')" title="Jaune"></div>
+            <div class="color red" [class.selected]="currentColor == 'red'" (click)="selectColor('red')" title="Rouge"></div>
+            <div class="color green" [class.selected]="currentColor == 'green'" (click)="selectColor('green')" title="Vert"></div>
+            <div class="color blue" [class.selected]="currentColor == 'blue'" (click)="selectColor('blue')" title="Bleu"></div>
+        </div>
+    </div>
+    <div class="buttons">
+        <a href="#" class="button btn-primary" (click)="saveImage(); $event.preventDefault();">Enregistrer</a>
+        <a href="#" class="button btn-light" (click)="cancel(); $event.preventDefault();">Annuler</a>
+    </div>
+</div>

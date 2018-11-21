@@ -1,0 +1,7 @@
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+export { ImageDrawingModule } from './src/image-drawing.module';
+export { ImageDrawingComponent } from './src/image-drawing.component';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290Ijoibmc6Ly9uZ3gtaW1hZ2UtZHJhd2luZy8iLCJzb3VyY2VzIjpbImluZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7QUFBQSxPQUFPLEVBQUUsa0JBQWtCLEVBQUUsTUFBTSw0QkFBNEIsQ0FBQztBQUNoRSxPQUFPLEVBQUUscUJBQXFCLEVBQUUsTUFBTSwrQkFBK0IsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCB7IEltYWdlRHJhd2luZ01vZHVsZSB9IGZyb20gJy4vc3JjL2ltYWdlLWRyYXdpbmcubW9kdWxlJztcbmV4cG9ydCB7IEltYWdlRHJhd2luZ0NvbXBvbmVudCB9IGZyb20gJy4vc3JjL2ltYWdlLWRyYXdpbmcuY29tcG9uZW50JztcbiJdfQ==

@@ -1,0 +1,64 @@
+{
+  "name": "ngx-image-drawing",
+  "version": "1.0.0",
+  "description": "Angular module to draw on images",
+  "main": "./bundles/ngx-image-drawing.umd.js",
+  "module": "./ngx-image-drawing/ngx-image-drawing.es5.js",
+  "es2015": "./ngx-image-drawing/ngx-image-drawing.js",
+  "scripts": {
+    "transpile": "ngc",
+    "build": "ng-packagr -p ng-package.json",
+    "pack-lib": "npm pack ./dist",
+    "publish-lib": "npm publish ./dist"
+  },
+  "typings": "./ngx-image-drawing.d.ts",
+  "author": "Groupe Curious",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the0neyouseek/ngx-image-drawing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/the0neyouseek/ngx-image-drawing/issues"
+  },
+  "homepage": "https://github.com/the0neyouseek/ngx-image-drawing",
+  "keywords": [
+    "angular",
+    "angular 2",
+    "angular 4",
+    "angular 5",
+    "angular 6",
+    "angular 7",
+    "fabric",
+    "fabricjs",
+    "draw",
+    "drawing",
+    "image",
+    "image drawing",
+    "image editor",
+    "picture",
+    "picture drawing",
+    "picture editor"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": ">=2.4.0",
+    "@angular/core": ">=2.4.0",
+    "@angular/platform-browser": ">=2.4.0",
+    "@types/fabric": "^1.5.45",
+    "fabric": "^2.4.3"
+  },
+  "devDependencies": {
+    "@angular/common": "^7.0.4",
+    "@angular/compiler": "^7.0.4",
+    "@angular/compiler-cli": "^7.0.4",
+    "@angular/core": "^7.0.4",
+    "@angular/platform-browser": "^7.0.4",
+    "@types/fabric": "^1.5.45",
+    "fabric": "^2.4.3",
+    "ng-packagr": "^4.4.0",
+    "rxjs": "^6.3.3",
+    "tsickle": "^0.34.0",
+    "typescript": "^3.1.6",
+    "zone.js": "~0.8.26"
+  }
+}
