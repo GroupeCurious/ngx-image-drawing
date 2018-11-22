@@ -9,12 +9,12 @@
   "author": "Groupe Curious",
   "repository": {
     "type": "git",
-    "url": "https://github.com/the0neyouseek/ngx-image-drawing.git"
+    "url": "https://github.com/GroupeCurious/ngx-image-drawing.git"
   },
   "bugs": {
-    "url": "https://github.com/the0neyouseek/ngx-image-drawing/issues"
+    "url": "https://github.com/GroupeCurious/ngx-image-drawing/issues"
   },
-  "homepage": "https://github.com/the0neyouseek/ngx-image-drawing",
+  "homepage": "https://github.com/GroupeCurious/ngx-image-drawing",
   "keywords": [
     "angular",
     "angular 2",
