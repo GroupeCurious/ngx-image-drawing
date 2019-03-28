@@ -9,6 +9,8 @@ import { fabric } from 'fabric';
 export class ImageDrawingComponent implements OnInit {
 
     @Input() public src?: string;
+    @Input() public saveBtnText = 'Save';
+    @Input() public cancelBtnText = 'Cancel';
     @Output() public onSave: EventEmitter<Blob> = new EventEmitter<Blob>();
     @Output() public onCancel: EventEmitter<void> = new EventEmitter<void>();
 
@@ -31,7 +33,7 @@ export class ImageDrawingComponent implements OnInit {
             isDrawingMode: true,
         });
         if (this.src) {
-            canvas.setBackgroundImage(this.src, ((img) => {
+            canvas.setBackgroundImage(this.src, ((img: HTMLImageElement) => {
                 canvas.setWidth(img.width);
                 canvas.setHeight(img.height);
             }), {

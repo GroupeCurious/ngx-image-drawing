@@ -144,6 +144,10 @@
         transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 280ms cubic-bezier(.4,0,.2,1);
         margin: 10px;
 
+        &:hover {
+            text-decoration: none !important;
+        }
+
         &.btn-primary {
             background-color: #ef5f27;
             color: #fff;
@@ -157,7 +161,7 @@
             color: #ef5f27;
 
             &:hover {
-            background-color: rgba(239, 95, 39, 0.1);
+                background-color: rgba(239, 95, 39, 0.1);
             }
         }
     }

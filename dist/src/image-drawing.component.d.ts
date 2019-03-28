@@ -1,6 +1,8 @@
 import { EventEmitter, OnInit } from '@angular/core';
 export declare class ImageDrawingComponent implements OnInit {
     src?: string;
+    saveBtnText: string;
+    cancelBtnText: string;
     onSave: EventEmitter<Blob>;
     onCancel: EventEmitter<void>;
     currentTool: string;
