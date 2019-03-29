@@ -28,8 +28,8 @@ let ImageDrawingComponent = class ImageDrawingComponent {
         });
         if (this.src !== undefined) {
             const imgEl = new Image();
-            // imgEl.setAttribute('crossOrigin', 'anonymous');
-            imgEl.src = this.src;
+            imgEl.setAttribute('crossOrigin', 'anonymous');
+            imgEl.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
             imgEl.onerror = (event) => {
                 console.error(event);
                 this.isLoading = false;

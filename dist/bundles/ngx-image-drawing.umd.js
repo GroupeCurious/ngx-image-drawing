@@ -79,8 +79,8 @@
             });
             if (this.src !== undefined) {
                 var imgEl_1 = new Image();
-                // imgEl.setAttribute('crossOrigin', 'anonymous');
-                imgEl_1.src = this.src;
+                imgEl_1.setAttribute('crossOrigin', 'anonymous');
+                imgEl_1.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
                 imgEl_1.onerror = function (event) {
                     console.error(event);
                     _this.isLoading = false;
