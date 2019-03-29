@@ -78,14 +78,21 @@
                 isDrawingMode: true,
             });
             if (this.src !== undefined) {
+                var isFirstTry_1 = true;
                 var imgEl_1 = new Image();
                 imgEl_1.setAttribute('crossOrigin', 'anonymous');
-                imgEl_1.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
-                imgEl_1.onerror = function (event) {
-                    console.error(event);
-                    _this.isLoading = false;
-                    _this.hasError = true;
-                    _this.errorMessage = _this.errorText.replace('%@', _this.src);
+                imgEl_1.src = this.src;
+                imgEl_1.onerror = function () {
+                    // Retry with cors proxy
+                    if (isFirstTry_1) {
+                        imgEl_1.src = 'http://cors-anywhere.herokuapp.com/' + _this.src;
+                        isFirstTry_1 = false;
+                    }
+                    else {
+                        _this.isLoading = false;
+                        _this.hasError = true;
+                        _this.errorMessage = _this.errorText.replace('%@', _this.src);
+                    }
                 };
                 imgEl_1.onload = function () {
                     _this.isLoading = false;

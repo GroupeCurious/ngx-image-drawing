@@ -27,14 +27,21 @@ let ImageDrawingComponent = class ImageDrawingComponent {
             isDrawingMode: true,
         });
         if (this.src !== undefined) {
+            let isFirstTry = true;
             const imgEl = new Image();
             imgEl.setAttribute('crossOrigin', 'anonymous');
-            imgEl.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
-            imgEl.onerror = (event) => {
-                console.error(event);
-                this.isLoading = false;
-                this.hasError = true;
-                this.errorMessage = this.errorText.replace('%@', this.src);
+            imgEl.src = this.src;
+            imgEl.onerror = () => {
+                // Retry with cors proxy
+                if (isFirstTry) {
+                    imgEl.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
+                    isFirstTry = false;
+                }
+                else {
+                    this.isLoading = false;
+                    this.hasError = true;
+                    this.errorMessage = this.errorText.replace('%@', this.src);
+                }
             };
             imgEl.onload = () => {
                 this.isLoading = false;
