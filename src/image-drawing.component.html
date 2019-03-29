@@ -1,6 +1,17 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="loading" *ngIf="isLoading">
+    <ng-container *ngTemplateOutlet="loadingTemplate ? loadingTemplate : defaultLoading"></ng-container>
+</div>
+<div class="error" *ngIf="hasError">
+    <ng-container *ngTemplateOutlet="errorTemplate ? errorTemplate : defaultError"></ng-container>
+</div>
+
+<ng-template #defaultLoading><p>{{ loadingText }}</p></ng-template>
+<ng-template #defaultError><p>{{ errorMessage }}</p></ng-template>
+
 <canvas id="canvas"></canvas>
-<div class="toolbar">
+<div class="toolbar" *ngIf="!isLoading">
     <div class="tools">
         <div class="row">
             <i class="material-icons btn" [class.selected]="currentTool == 'brush'" (click)="selectTool('brush')" title="Pinceau">brush</i>

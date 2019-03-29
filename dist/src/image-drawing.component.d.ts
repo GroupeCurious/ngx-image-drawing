@@ -1,8 +1,12 @@
-import { EventEmitter, OnInit } from '@angular/core';
+import { EventEmitter, OnInit, TemplateRef } from '@angular/core';
 export declare class ImageDrawingComponent implements OnInit {
     src?: string;
     saveBtnText: string;
     cancelBtnText: string;
+    loadingText: string;
+    errorText: string;
+    loadingTemplate?: TemplateRef<any>;
+    errorTemplate?: TemplateRef<any>;
     onSave: EventEmitter<Blob>;
     onCancel: EventEmitter<void>;
     currentTool: string;
@@ -10,6 +14,9 @@ export declare class ImageDrawingComponent implements OnInit {
     currentColor: string;
     canUndo: boolean;
     canRedo: boolean;
+    isLoading: boolean;
+    hasError: boolean;
+    errorMessage: string;
     private canvas?;
     private stack;
     constructor();

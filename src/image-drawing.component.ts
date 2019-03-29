@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { fabric } from 'fabric';
 
 @Component({
@@ -11,6 +11,11 @@ export class ImageDrawingComponent implements OnInit {
     @Input() public src?: string;
     @Input() public saveBtnText = 'Save';
     @Input() public cancelBtnText = 'Cancel';
+    @Input() public loadingText = 'Loading…';
+    @Input() public errorText = 'Error loading %@';
+    @Input() public loadingTemplate?: TemplateRef<any>;
+    @Input() public errorTemplate?: TemplateRef<any>;
+
     @Output() public onSave: EventEmitter<Blob> = new EventEmitter<Blob>();
     @Output() public onCancel: EventEmitter<void> = new EventEmitter<void>();
 
@@ -20,6 +25,10 @@ export class ImageDrawingComponent implements OnInit {
 
     public canUndo: boolean = false;
     public canRedo: boolean = false;
+
+    public isLoading = true;
+    public hasError = false;
+    public errorMessage = '';
 
     private canvas?: any;
     private stack: any[] = [];
@@ -32,15 +41,30 @@ export class ImageDrawingComponent implements OnInit {
             hoverCursor: 'pointer',
             isDrawingMode: true,
         });
-        if (this.src) {
-            canvas.setBackgroundImage(this.src, ((img: HTMLImageElement) => {
-                canvas.setWidth(img.width);
-                canvas.setHeight(img.height);
-            }), {
-                crossOrigin: 'anonymous',
-                originX: 'left',
-                originY: 'top'
-            });
+        if (this.src !== undefined) {
+            const imgEl = new Image();
+            // imgEl.setAttribute('crossOrigin', 'anonymous');
+            imgEl.src = this.src;
+            imgEl.onerror = (event) => {
+                console.error(event);
+                this.isLoading = false;
+                this.hasError = true;
+                this.errorMessage = this.errorText.replace('%@', this.src as string);
+            };
+            imgEl.onload = () => {
+                this.isLoading = false;
+                const fabricImg = new fabric.Image(imgEl);
+                canvas.setBackgroundImage(fabricImg, ((img: HTMLImageElement) => {
+                    if (img !== null) {
+                        canvas.setWidth(img.width);
+                        canvas.setHeight(img.height);
+                    }
+                }), {
+                        crossOrigin: 'anonymous',
+                        originX: 'left',
+                        originY: 'top'
+                    });
+            };
         }
 
         canvas.on('path:created', (e) => {
