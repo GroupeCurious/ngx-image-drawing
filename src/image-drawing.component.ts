@@ -15,6 +15,8 @@ export class ImageDrawingComponent implements OnInit {
     @Input() public errorText = 'Error loading %@';
     @Input() public loadingTemplate?: TemplateRef<any>;
     @Input() public errorTemplate?: TemplateRef<any>;
+    @Input() public outputType?: string = 'image/jpeg';
+    @Input() public outputQuality?: number = 0.8;
 
     @Output() public onSave: EventEmitter<Blob> = new EventEmitter<Blob>();
     @Output() public onCancel: EventEmitter<void> = new EventEmitter<void>();
@@ -152,9 +154,13 @@ export class ImageDrawingComponent implements OnInit {
     }
 
     public saveImage() {
-        this.canvas.getElement().toBlob((data: Blob) => {
-            this.onSave.emit(data);
-        });
+        this.canvas.getElement().toBlob(
+          (data: Blob) => {
+              this.onSave.emit(data);
+          },
+          this.outputType,
+          this.outputQuality
+        );
     }
 
     public cancel() {
@@ -166,3 +172,4 @@ export class ImageDrawingComponent implements OnInit {
         this.canRedo = this.stack.length > 0;
     }
 }
+
