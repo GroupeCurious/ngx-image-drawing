@@ -9,6 +9,8 @@ let ImageDrawingComponent = class ImageDrawingComponent {
         this.cancelBtnText = 'Cancel';
         this.loadingText = 'Loading…';
         this.errorText = 'Error loading %@';
+        this.outputMimeType = 'image/jpeg';
+        this.outputQuality = 0.8;
         this.onSave = new EventEmitter();
         this.onCancel = new EventEmitter();
         this.currentTool = 'brush';
@@ -136,7 +138,7 @@ let ImageDrawingComponent = class ImageDrawingComponent {
     saveImage() {
         this.canvas.getElement().toBlob((data) => {
             this.onSave.emit(data);
-        });
+        }, this.outputMimeType, this.outputQuality);
     }
     cancel() {
         this.onCancel.emit();
@@ -174,6 +176,14 @@ __decorate([
     Input(),
     __metadata("design:type", TemplateRef)
 ], ImageDrawingComponent.prototype, "errorTemplate", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", String)
+], ImageDrawingComponent.prototype, "outputMimeType", void 0);
+__decorate([
+    Input(),
+    __metadata("design:type", Number)
+], ImageDrawingComponent.prototype, "outputQuality", void 0);
 __decorate([
     Output(),
     __metadata("design:type", EventEmitter)

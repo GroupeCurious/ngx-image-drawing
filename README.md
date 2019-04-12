@@ -44,6 +44,8 @@ You can now use in a component like so
     [src]="{{ imageUrl }}"
     [saveText]="'Save'"
     [cancelText]="'Cancel'"
+    [outputMimeType]="'image/jpeg'"
+    [outputQuality]="0.8"
     (onSave)="onSave($event)"
     (onCancel)="close()">
 </image-drawing>
@@ -56,6 +58,8 @@ You can now use in a component like so
 - `cancelText: string?` : Cancel button text (default value : 'Cancel')
 - `loadingText: string?` : Image loading text (default value : 'Loading…')
 - `errorText:  string?` : Image loading error text (default value : 'Error loading %@', where `%@` is replaced by the `src`)
+- `outputMimeType: string?` : Mime Type of the output image, can be `image/png`, `image/jpeg` or `image/webp`
+- `outputQuality: number?`: Number between 0 and 1 to determine the quality of the ouput image (if mimeType is jpeg or webp)
 - `loadingTemplate: TemplateRef<any>?` : Image loading template
 - `errorTemplate: TemplateRef<any>?` : Image loading error template
 
@@ -67,3 +71,7 @@ You can now use in a component like so
 ## Maintainers
 
 - [@the0neyouseek](https://github.com/the0neyouseek)
+
+## Contributors
+
+- [@bambidotexe](https://githbu.com/bambidotexe)

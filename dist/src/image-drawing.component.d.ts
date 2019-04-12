@@ -7,6 +7,8 @@ export declare class ImageDrawingComponent implements OnInit {
     errorText: string;
     loadingTemplate?: TemplateRef<any>;
     errorTemplate?: TemplateRef<any>;
+    outputMimeType?: string;
+    outputQuality?: number;
     onSave: EventEmitter<Blob>;
     onCancel: EventEmitter<void>;
     currentTool: string;

@@ -9,6 +9,8 @@ var ImageDrawingComponent = /** @class */ (function () {
         this.cancelBtnText = 'Cancel';
         this.loadingText = 'Loading…';
         this.errorText = 'Error loading %@';
+        this.outputMimeType = 'image/jpeg';
+        this.outputQuality = 0.8;
         this.onSave = new EventEmitter();
         this.onCancel = new EventEmitter();
         this.currentTool = 'brush';
@@ -139,7 +141,7 @@ var ImageDrawingComponent = /** @class */ (function () {
         var _this = this;
         this.canvas.getElement().toBlob(function (data) {
             _this.onSave.emit(data);
-        });
+        }, this.outputMimeType, this.outputQuality);
     };
     ImageDrawingComponent.prototype.cancel = function () {
         this.onCancel.emit();
@@ -176,6 +178,14 @@ var ImageDrawingComponent = /** @class */ (function () {
         Input(),
         __metadata("design:type", TemplateRef)
     ], ImageDrawingComponent.prototype, "errorTemplate", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", String)
+    ], ImageDrawingComponent.prototype, "outputMimeType", void 0);
+    __decorate([
+        Input(),
+        __metadata("design:type", Number)
+    ], ImageDrawingComponent.prototype, "outputQuality", void 0);
     __decorate([
         Output(),
         __metadata("design:type", EventEmitter)
