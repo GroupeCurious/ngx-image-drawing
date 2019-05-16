@@ -3,6 +3,7 @@
 tmp
 app/**/*.js
 app/**/*.js.map
+dist
 
 # dependencies
 node_modules
