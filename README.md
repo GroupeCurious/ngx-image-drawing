@@ -41,21 +41,21 @@ export class YourModule {
 You can now use in a component like so
 ```html
 <image-drawing
-    [src]="{{ imageUrl }}"
-    [saveText]="'Save'"
-    [cancelText]="'Cancel'"
-    [outputMimeType]="'image/jpeg'"
-    [outputQuality]="0.8"
-    (onSave)="onSave($event)"
-    (onCancel)="close()">
+    [src]="imageUrl"
+    saveBtnText="Save"
+    cancelBtnText="Cancel"
+    outputMimeType="'image/jpeg'"
+    outputQuality="0.8"
+    (onSave)="save($event)"
+    (onCancel)="cancel()">
 </image-drawing>
 ```
 
 ### Inputs
 
 - `src: string` : Image url
-- `saveText: string?` : Save button text (default value : 'Save' )
-- `cancelText: string?` : Cancel button text (default value : 'Cancel')
+- `saveBtnText: string?` : Save button text (default value : 'Save' )
+- `cancelBtnText: string?` : Cancel button text (default value : 'Cancel')
 - `loadingText: string?` : Image loading text (default value : 'Loading…')
 - `errorText:  string?` : Image loading error text (default value : 'Error loading %@', where `%@` is replaced by the `src`)
 - `outputMimeType: string?` : Mime Type of the output image, can be `image/png`, `image/jpeg` or `image/webp`
@@ -75,3 +75,4 @@ You can now use in a component like so
 ## Contributors
 
 - [@bambidotexe](https://githbu.com/bambidotexe)
+- [@neelavar](https://github.com/neelavar)
