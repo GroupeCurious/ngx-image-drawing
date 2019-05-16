@@ -15,18 +15,22 @@ export class ImageDrawingComponent implements OnInit {
     @Input() public errorText = 'Error loading %@';
     @Input() public loadingTemplate?: TemplateRef<any>;
     @Input() public errorTemplate?: TemplateRef<any>;
-    @Input() public outputMimeType?: string = 'image/jpeg';
-    @Input() public outputQuality?: number = 0.8;
+    @Input() public outputMimeType = 'image/jpeg';
+    @Input() public outputQuality = 0.8;
+    @Input() public imageScale = 1.0;
+    @Input() public enableTooltip = true;
+    // TODO: Implement i18n
+    @Input() public tooltipLanguage: 'en' | 'fr' = 'en';
 
-    @Output() public onSave: EventEmitter<Blob> = new EventEmitter<Blob>();
-    @Output() public onCancel: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public save: EventEmitter<Blob> = new EventEmitter<Blob>();
+    @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
 
-    public currentTool: string = 'brush';
-    public currentSize: string = 'medium';
-    public currentColor: string = 'black';
+    public currentTool = 'brush';
+    public currentSize = 'medium';
+    public currentColor = 'black';
 
-    public canUndo: boolean = false;
-    public canRedo: boolean = false;
+    public canUndo = false;
+    public canRedo = false;
 
     public isLoading = true;
     public hasError = false;
@@ -34,6 +38,39 @@ export class ImageDrawingComponent implements OnInit {
 
     private canvas?: any;
     private stack: any[] = [];
+
+    drawingSizes = ['small', 'medium', 'large'];
+    private drawingSize: { [name: string]: number } = {
+        small: 5,
+        medium: 10,
+        large: 20
+    };
+    private tooltip: { [name: string]: { en: string, fr: string } } = {
+        small: { en: 'Small', fr: 'Taille: petit' },
+        medium: { en: 'Medium', fr: 'Taille: moyen' },
+        large: { en: 'Large', fr: 'Taille: grand' },
+        undo: { en: 'Undo', fr: 'Annuler' },
+        redo: { en: 'Redo', fr: 'Refaire' },
+        clear: { en: 'Clear', fr: 'Effacer tout' },
+        black: { en: 'Black', fr: 'Noir' },
+        white: { en: 'White', fr: 'Blanc' },
+        yellow: { en: 'Yellow', fr: 'Jaune' },
+        red: { en: 'Red', fr: 'Rouge' },
+        green: { en: 'Green', fr: 'Vert' },
+        blue: { en: 'Blue', fr: 'Bleu' },
+        brush: { en: 'Brush', fr: 'Pinceau'}
+    };
+
+    public ink: { [name: string]: string } = {
+        black: '#000',
+        white: '#fff',
+        yellow: '#ffeb3b',
+        red: '#f44336',
+        blue: '#2196f3',
+        green: '#4caf50'
+    };
+
+    public colors = Object.keys(this.ink);
 
     constructor() {
     }
@@ -62,10 +99,12 @@ export class ImageDrawingComponent implements OnInit {
             imgEl.onload = () => {
                 this.isLoading = false;
                 const fabricImg = new fabric.Image(imgEl);
+                fabricImg.scaleToWidth(imgEl.width * this.imageScale, false);
+                console.log('Fabric Image width & height:', fabricImg.width, fabricImg.height);
                 canvas.setBackgroundImage(fabricImg, ((img: HTMLImageElement) => {
                     if (img !== null) {
-                        canvas.setWidth(img.width);
-                        canvas.setHeight(img.height);
+                        canvas.setWidth(img.width * this.imageScale);
+                        canvas.setHeight(img.height * this.imageScale);
                     }
                 }), {
                         crossOrigin: 'anonymous',
@@ -95,32 +134,14 @@ export class ImageDrawingComponent implements OnInit {
     public selectDrawingSize(size: string) {
         this.currentSize = size;
         if (this.canvas !== null && this.canvas !== undefined) {
-            if (size === 'small') {
-                this.canvas.freeDrawingBrush.width = 5;
-            } else if (size === 'medium') {
-                this.canvas.freeDrawingBrush.width = 10;
-            } else if (size === 'large') {
-                this.canvas.freeDrawingBrush.width = 20;
-            }
+            this.canvas.freeDrawingBrush.width = this.drawingSize[size];
         }
     }
 
     public selectColor(color: string) {
         this.currentColor = color;
         if (this.canvas !== null && this.canvas !== undefined) {
-            if (color === 'black') {
-                this.canvas.freeDrawingBrush.color = '#000';
-            } else if (color === 'white') {
-                this.canvas.freeDrawingBrush.color = '#fff';
-            } else if (color === 'yellow') {
-                this.canvas.freeDrawingBrush.color = '#ffeb3b';
-            } else if (color === 'red') {
-                this.canvas.freeDrawingBrush.color = '#f44336';
-            } else if (color === 'blue') {
-                this.canvas.freeDrawingBrush.color = '#2196f3';
-            } else if (color === 'green') {
-                this.canvas.freeDrawingBrush.color = '#4caf50';
-            }
+            this.canvas.freeDrawingBrush.color = this.ink[color];
         }
     }
 
@@ -156,15 +177,19 @@ export class ImageDrawingComponent implements OnInit {
     public saveImage() {
         this.canvas.getElement().toBlob(
             (data: Blob) => {
-                this.onSave.emit(data);
+                this.save.emit(data);
             },
             this.outputMimeType,
             this.outputQuality
         );
     }
 
-    public cancel() {
-        this.onCancel.emit();
+    public cancelAction() {
+        this.cancel.emit();
+    }
+
+    public getTooltip(name: string): string {
+        return this.enableTooltip ? this.tooltip[name][this.tooltipLanguage] : '';
     }
 
     private setUndoRedo() {
