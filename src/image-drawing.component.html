@@ -1,41 +1,40 @@
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 <div class="loading" *ngIf="isLoading">
-    <ng-container *ngTemplateOutlet="loadingTemplate ? loadingTemplate : defaultLoading"></ng-container>
+  <ng-container *ngTemplateOutlet="loadingTemplate ? loadingTemplate : defaultLoading"></ng-container>
 </div>
 <div class="error" *ngIf="hasError">
-    <ng-container *ngTemplateOutlet="errorTemplate ? errorTemplate : defaultError"></ng-container>
+  <ng-container *ngTemplateOutlet="errorTemplate ? errorTemplate : defaultError"></ng-container>
 </div>
 
-<ng-template #defaultLoading><p>{{ loadingText }}</p></ng-template>
-<ng-template #defaultError><p>{{ errorMessage }}</p></ng-template>
+<ng-template #defaultLoading> <p>{{ loadingText }}</p> </ng-template>
+<ng-template #defaultError> <p>{{ errorMessage }}</p> </ng-template>
 
 <canvas id="canvas"></canvas>
 <div class="toolbar" *ngIf="!isLoading">
-    <div class="tools">
-        <div class="row">
-            <i class="material-icons btn" [class.selected]="currentTool == 'brush'" (click)="selectTool('brush')" title="Pinceau">brush</i>
-            <span class="size small btn" [class.selected]="currentSize == 'small'" (click)="selectDrawingSize('small')"
-                title="Taille: petit"></span>
-            <span class="size medium btn" [class.selected]="currentSize == 'medium'" (click)="selectDrawingSize('medium')"
-                title="Taille: moyen"></span>
-            <span class="size large btn" [class.selected]="currentSize == 'large'" (click)="selectDrawingSize('large')"
-                title="Taille: grand"></span>
-            <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()" title="Annuler">undo</i>
-            <i class="material-icons btn" [class.disabled]="!canRedo" (click)="redo()" title="Refaire">redo</i>
-            <i class="material-icons btn" (click)="clearCanvas()" title="Effacer tout">delete</i>
-        </div>
-        <div class="row">
-            <div class="color black" [class.selected]="currentColor == 'black'" (click)="selectColor('black')" title="Noir"></div>
-            <div class="color white" [class.selected]="currentColor == 'white'" (click)="selectColor('white')" title="Blanc"></div>
-            <div class="color yellow" [class.selected]="currentColor == 'yellow'" (click)="selectColor('yellow')" title="Jaune"></div>
-            <div class="color red" [class.selected]="currentColor == 'red'" (click)="selectColor('red')" title="Rouge"></div>
-            <div class="color green" [class.selected]="currentColor == 'green'" (click)="selectColor('green')" title="Vert"></div>
-            <div class="color blue" [class.selected]="currentColor == 'blue'" (click)="selectColor('blue')" title="Bleu"></div>
+  <div class="tools">
+    <div class="row">
+      <i class="material-icons btn" [class.selected]="currentTool == 'brush'" (click)="selectTool('brush')"
+        [title]="getTooltip('brush')">brush</i>
+      <span *ngFor="let drawingSize of drawingSizes" class="size btn" [ngClass]="drawingSize"
+        [class.selected]="currentSize == drawingSize" [title]="getTooltip(drawingSize)"
+        (click)="selectDrawingSize(drawingSize)" >
+      </span>
+
+      <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()" [title]="getTooltip('undo')">undo</i>
+      <i class="material-icons btn" [class.disabled]="!canRedo" (click)="redo()" [title]="getTooltip('redo')">redo</i>
+      <i class="material-icons btn" (click)="clearCanvas()" [title]="getTooltip('clear')">delete</i>
+    </div>
+    <div class="row">
+        <div *ngFor="let color of colors" [class.selected]="currentColor == color"
+            [ngClass]="['color', color]" [title]="getTooltip(color)" (click)="selectColor(color)">
         </div>
     </div>
-    <div class="buttons">
-        <a href="#" class="button btn-primary" (click)="saveImage(); $event.preventDefault();">{{ saveBtnText }}</a>
-        <a href="#" class="button btn-light" (click)="cancel(); $event.preventDefault();">{{ cancelBtnText }}</a>
-    </div>
+  </div>
+  <div class="buttons">
+    <a href="#" class="button btn-primary" (click)="saveImage(); $event.preventDefault()">{{ saveBtnText }}</a>
+    <a href="#" class="button btn-light" (click)="cancelAction(); $event.preventDefault()">{{ cancelBtnText }}</a>
+  </div>
+  <!-- Any additional toolbar buttons to be projected by the consuming app -->
+  <ng-content></ng-content>
 </div>
