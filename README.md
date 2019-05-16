@@ -77,5 +77,6 @@ You can now use in a component like so
 
 ## Contributors
 
-- [@bambidotexe](https://githbu.com/bambidotexe)
+- [@bambidotexe](https://github.com/bambidotexe)
 - [@neelavar](https://github.com/neelavar)
+- [@valentintintin](https://github.com/valentintintin)

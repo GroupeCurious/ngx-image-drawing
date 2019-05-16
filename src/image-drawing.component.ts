@@ -100,7 +100,6 @@ export class ImageDrawingComponent implements OnInit {
                 this.isLoading = false;
                 const fabricImg = new fabric.Image(imgEl);
                 fabricImg.scaleToWidth(imgEl.width * this.imageScale, false);
-                console.log('Fabric Image width & height:', fabricImg.width, fabricImg.height);
                 canvas.setBackgroundImage(fabricImg, ((img: HTMLImageElement) => {
                     if (img !== null) {
                         canvas.setWidth(img.width * this.imageScale);
