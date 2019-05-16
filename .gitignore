@@ -4,6 +4,7 @@ tmp
 app/**/*.js
 app/**/*.js.map
 dist
+*.tgz
 
 # dependencies
 node_modules

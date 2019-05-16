@@ -9,7 +9,8 @@
     "transpile": "ngc",
     "build": "ng-packagr -p ng-package.json",
     "pack-lib": "npm pack ./dist",
-    "publish-lib": "npm publish ./dist"
+    "pkg-info": "echo Publishing package: $npm_package_name-$npm_package_version.tgz",
+    "publish-lib": "npm publish $npm_package_name-$npm_package_version.tgz"
   },
   "typings": "./ngx-image-drawing.d.ts",
   "author": "Groupe Curious",
@@ -41,24 +42,23 @@
   ],
   "license": "MIT",
   "peerDependencies": {
-    "@angular/common": "^7.2.11",
-    "@angular/core": "^7.2.11",
-    "@angular/platform-browser": "^7.2.11",
-    "@types/fabric": "^2.6.6",
+    "@angular/common": "^7.2.15",
+    "@angular/core": "^7.2.15",
+    "@angular/platform-browser": "^7.2.15",
     "fabric": "^2.7.0"
   },
   "devDependencies": {
-    "@angular/common": "^7.2.11",
-    "@angular/compiler": "^7.2.11",
-    "@angular/compiler-cli": "^7.2.11",
-    "@angular/core": "^7.2.11",
-    "@angular/platform-browser": "^7.2.11",
+    "@angular/common": "^7.2.15",
+    "@angular/compiler": "^7.2.15",
+    "@angular/compiler-cli": "^7.2.15",
+    "@angular/core": "^7.2.15",
+    "@angular/platform-browser": "^7.2.15",
     "@types/fabric": "^2.6.6",
     "fabric": "^2.7.0",
-    "ng-packagr": "^5.0.1",
+    "ng-packagr": "^5.1.0",
     "rxjs": "^6.4.0",
-    "tsickle": "^0.34.3",
-    "typescript": "^3.1.6",
-    "zone.js": "^0.9.0"
+    "tsickle": "0.34.0",
+    "typescript": "~3.2.x",
+    "zone.js": "~0.8.26"
   }
 }
