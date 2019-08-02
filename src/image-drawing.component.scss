@@ -51,24 +51,6 @@
         &.selected {
             background-color: #bdbdbd;
         }
-
-        &.small {
-            height: 12px;
-            width: 12px;
-            border-radius: 6px;
-        }
-
-        &.medium {
-            height: 16px;
-            width: 16px;
-            border-radius: 8px;
-        }
-
-        &.large {
-            height: 20px;
-            width: 20px;
-            border-radius: 10px;
-        }
     }
 
     .color {
@@ -103,22 +85,6 @@
 
         &.white {
             border: 1px solid #a7a7a7;
-        }
-
-        &.yellow {
-            background-color: #FFEB3B;
-        }
-
-        &.red {
-            background-color: #F44336;
-        }
-
-        &.blue {
-            background-color: #2196F3;
-        }
-
-        &.green {
-            background-color: #4CAF50;
         }
     }
 

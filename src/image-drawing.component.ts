@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { fabric } from 'fabric';
+import { I18nEn, I18nInterface, i18nLanguages } from './i18n';
 
 @Component({
     selector: 'image-drawing',
@@ -9,24 +10,49 @@ import { fabric } from 'fabric';
 export class ImageDrawingComponent implements OnInit {
 
     @Input() public src?: string;
+    @Input() public imageScale = 1.0;
     @Input() public width?: number;
     @Input() public height?: number;
-    @Input() public saveBtnText = 'Save';
-    @Input() public cancelBtnText = 'Cancel';
-    @Input() public loadingText = 'Loading…';
-    @Input() public errorText = 'Error loading %@';
-    @Input() public loadingTemplate?: TemplateRef<any>;
-    @Input() public errorTemplate?: TemplateRef<any>;
-    @Input() public outputMimeType = 'image/jpeg';
-    @Input() public outputQuality = 0.8;
-    @Input() public imageScale = 1.0;
+
     @Input() public enableRemoveImage = false;
     @Input() public enableLoadAnotherImage = false;
     @Input() public enableTooltip = true;
     @Input() public showCancelButton = true;
+
+    @Input('i18n') public i18nUser: I18nInterface = null;
+    @Input() public locale: string = 'en';
+    /* @deprecated Use i18n.saveBtn */
+    @Input() public saveBtnText = 'Save';
+    /* @deprecated Use i18n.cancelBtn */
+    @Input() public cancelBtnText = 'Cancel';
+    /* @deprecated Use i18n.loading */
+    @Input() public loadingText = 'Loading…';
+    /* @deprecated Use i18n.loadError */
+    @Input() public errorText = 'Error loading %@';
+
+    @Input() public loadingTemplate?: TemplateRef<any>;
+    @Input() public errorTemplate?: TemplateRef<any>;
+
+    @Input() public outputMimeType = 'image/jpeg';
+    @Input() public outputQuality = 0.8;
+
     @Input() public borderCss: string = 'none';
-    // TODO: Implement i18n
-    @Input() public tooltipLanguage: 'en' | 'fr' = 'en';
+
+    @Input() public drawingSizes: { [name: string]: number } = {
+        small: 5,
+        medium: 10,
+        large: 25,
+    };
+
+    @Input() public colors: { [name: string]: string } = {
+        black: '#000',
+        white: '#fff',
+        yellow: '#ffeb3b',
+        red: '#f44336',
+        blue: '#2196f3',
+        green: '#4caf50',
+        purple: '#7a08af',
+    };
 
     @Output() public save: EventEmitter<Blob> = new EventEmitter<Blob>();
     @Output() public cancel: EventEmitter<void> = new EventEmitter<void>();
@@ -34,6 +60,7 @@ export class ImageDrawingComponent implements OnInit {
     public currentTool = 'brush';
     public currentSize = 'medium';
     public currentColor = 'black';
+    public i18n: I18nInterface = I18nEn;
 
     public canUndo = false;
     public canRedo = false;
@@ -45,45 +72,16 @@ export class ImageDrawingComponent implements OnInit {
     private canvas?: any;
     private stack: any[] = [];
 
-    drawingSizes = ['small', 'medium', 'large'];
-    private drawingSize: { [name: string]: number } = {
-        small: 5,
-        medium: 10,
-        large: 20
-    };
-    private tooltip: { [name: string]: { en: string, fr: string } } = {
-        small: { en: 'Small', fr: 'Taille: petit' },
-        medium: { en: 'Medium', fr: 'Taille: moyen' },
-        large: { en: 'Large', fr: 'Taille: grand' },
-        load: { en: 'Load', fr: 'Charger' },
-        removeImage: { en: 'Remove image', fr: 'Supprimer l\'image' },
-        undo: { en: 'Undo', fr: 'Annuler' },
-        redo: { en: 'Redo', fr: 'Refaire' },
-        clear: { en: 'Clear', fr: 'Effacer tout' },
-        black: { en: 'Black', fr: 'Noir' },
-        white: { en: 'White', fr: 'Blanc' },
-        yellow: { en: 'Yellow', fr: 'Jaune' },
-        red: { en: 'Red', fr: 'Rouge' },
-        green: { en: 'Green', fr: 'Vert' },
-        blue: { en: 'Blue', fr: 'Bleu' },
-        brush: { en: 'Brush', fr: 'Pinceau'}
-    };
-
-    public ink: { [name: string]: string } = {
-        black: '#000',
-        white: '#fff',
-        yellow: '#ffeb3b',
-        red: '#f44336',
-        blue: '#2196f3',
-        green: '#4caf50'
-    };
-
-    public colors = Object.keys(this.ink);
+    public colorsName: string[] = [];
+    public drawingSizesName: string[] = [];
 
     constructor() {
     }
 
     public ngOnInit(): void {
+        this.colorsName = Object.keys(this.colors);
+        this.drawingSizesName = Object.keys(this.drawingSizes);
+
         this.canvas = new fabric.Canvas('canvas', {
             hoverCursor: 'pointer',
             isDrawingMode: true,
@@ -109,6 +107,24 @@ export class ImageDrawingComponent implements OnInit {
         this.selectTool(this.currentTool);
         this.selectColor(this.currentColor);
         this.selectDrawingSize(this.currentSize);
+
+        if (i18nLanguages[this.locale]) {
+            this.i18n = i18nLanguages[this.locale];
+        }
+
+        // FIXME remove after a while because properties are deprecated
+        if (this.saveBtnText) {
+            this.i18n.saveBtn = this.saveBtnText;
+        }
+        if (this.cancelBtnText) {
+            this.i18n.cancelBtn = this.cancelBtnText;
+        }
+        if (this.loadingText) {
+            this.i18n.loading = this.loadingText;
+        }
+        if (this.errorText) {
+            this.i18n.loadError = this.errorText;
+        }
     }
 
     // Tools
@@ -119,14 +135,14 @@ export class ImageDrawingComponent implements OnInit {
     public selectDrawingSize(size: string) {
         this.currentSize = size;
         if (this.canvas) {
-            this.canvas.freeDrawingBrush.width = this.drawingSize[size];
+            this.canvas.freeDrawingBrush.width = this.drawingSizes[size];
         }
     }
 
     public selectColor(color: string) {
         this.currentColor = color;
         if (this.canvas) {
-            this.canvas.freeDrawingBrush.color = this.ink[color];
+            this.canvas.freeDrawingBrush.color = this.colors[color];
         }
     }
 
@@ -174,7 +190,22 @@ export class ImageDrawingComponent implements OnInit {
     }
 
     public getTooltip(name: string): string {
-        return this.enableTooltip ? this.tooltip[name][this.tooltipLanguage] : '';
+        if (this.enableTooltip) {
+            let str = name.split('.').reduce((o, i) => o[i], this.i18n as any);
+
+            if (this.i18nUser) {
+                try {
+                    str = name.split('.').reduce((o, i) => o[i], this.i18nUser as any);
+                } catch (e) {
+                    if (!str) {
+                        console.error(name + ' translation not found !');
+                    }
+                }
+            }
+            return str ? str : '';
+        } else {
+            return '';
+        }
     }
 
     private setUndoRedo() {
@@ -187,7 +218,6 @@ export class ImageDrawingComponent implements OnInit {
             const file = event.target.files[0];
             if (file.type.match('image.*')) {
                 const reader = new FileReader();
-                // Read in the image file as a data URL.
                 reader.readAsDataURL(file);
                 reader.onload = (evtReader: any) => {
                     if (evtReader.target.readyState == FileReader.DONE) {
@@ -231,7 +261,7 @@ export class ImageDrawingComponent implements OnInit {
             } else {
                 this.isLoading = false;
                 this.hasError = true;
-                this.errorMessage = this.errorText.replace('%@', this.src as string);
+                this.errorMessage = this.i18n.loadError.replace('%@', this.src as string);
             }
         };
         imgEl.onload = () => {

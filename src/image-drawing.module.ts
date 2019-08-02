@@ -7,7 +7,7 @@ import { ImageDrawingComponent } from './image-drawing.component';
         ImageDrawingComponent
     ],
     exports: [
-        ImageDrawingComponent
+        ImageDrawingComponent,
     ],
     imports: [
         CommonModule

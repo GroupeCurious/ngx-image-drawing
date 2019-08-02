@@ -42,8 +42,6 @@ You can now use in a component like so
 ```html
 <image-drawing
     [src]="imageUrl"
-    saveBtnText="Save"
-    cancelBtnText="Cancel"
     outputMimeType="'image/jpeg'"
     outputQuality="0.8"
     (save)="save($event)"
@@ -54,10 +52,7 @@ You can now use in a component like so
 ### Inputs
 
 - `src: string` : Image url
-- `saveBtnText: string?` : Save button text (default value : 'Save' )
-- `cancelBtnText: string?` : Cancel button text (default value : 'Cancel')
-- `loadingText: string?` : Image loading text (default value : 'Loading…')
-- `errorText:  string?` : Image loading error text (default value : 'Error loading %@', where `%@` is replaced by the `src`)
+- `i18n: I18nInterface?` : Object with all text used (default value : 'I18nEn' )
 - `outputMimeType: string?` : Mime Type of the output image, can be `image/png`, `image/jpeg` or `image/webp`
 - `outputQuality: number?`: Number between 0 and 1 to determine the quality of the ouput image (if mimeType is jpeg or webp)
 - `loadingTemplate: TemplateRef<any>?` : Image loading template
@@ -71,7 +66,8 @@ You can now use in a component like so
 - `enableRemoveImage: boolean` : Enable the option to remove the image loaded (default `false`)
 - `enableLoadAnotherImage: boolean` : Enable the option to load another image (default `false`)
 - `showCancelButton: boolean` : Enable the cancel button (default `true`)
-
+- `colors: { string: string }?` : Colors available for users (default `black, white, yellow, red, blue, green, purple`)
+- `drawingSizes: { string: string }?` : Sizes available for users (default `5, 10, 25px`)
 
 ### Actions
 - `save` - Action on save button click, use `$event` to get the new edited image
