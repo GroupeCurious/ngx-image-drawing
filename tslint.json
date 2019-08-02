@@ -5,6 +5,10 @@
         "trailing-comma": false,
         "no-console": false,
         "semicolon":true,
-        "no-empty":false
+        "no-empty": false,
+        "disable-next-line": false,
+        "object-literal-sort-keys": false,
+        "max-line-length": false,
+        "ordered-imports": false
     }
 }
