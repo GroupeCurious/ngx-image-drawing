@@ -10,7 +10,9 @@
 <ng-template #defaultLoading> <p>{{ loadingText }}</p> </ng-template>
 <ng-template #defaultError> <p>{{ errorMessage }}</p> </ng-template>
 
-<canvas id="canvas"></canvas>
+<div [ngStyle]="{ border: borderCss }">
+    <canvas id="canvas"></canvas>
+</div>
 <div class="toolbar" *ngIf="!isLoading">
   <div class="tools">
     <div class="row">

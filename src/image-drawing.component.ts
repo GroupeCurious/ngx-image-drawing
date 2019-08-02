@@ -23,6 +23,7 @@ export class ImageDrawingComponent implements OnInit {
     @Input() public enableRemoveImage = false;
     @Input() public enableLoadAnotherImage = false;
     @Input() public enableTooltip = true;
+    @Input() public borderCss: string = 'none';
     // TODO: Implement i18n
     @Input() public tooltipLanguage: 'en' | 'fr' = 'en';
 
