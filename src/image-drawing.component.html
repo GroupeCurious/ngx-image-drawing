@@ -41,7 +41,8 @@
   </div>
   <div class="buttons">
     <a href="#" class="button btn-primary" (click)="saveImage(); $event.preventDefault()">{{ saveBtnText }}</a>
-    <a href="#" class="button btn-light" (click)="cancelAction(); $event.preventDefault()">{{ cancelBtnText }}</a>
+      <a href="#" class="button btn-light" *ngIf="showCancelButton"
+         (click)="cancelAction(); $event.preventDefault()">{{ cancelBtnText }}</a>
   </div>
   <!-- Any additional toolbar buttons to be projected by the consuming app -->
   <ng-content></ng-content>
