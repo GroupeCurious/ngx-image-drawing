@@ -21,7 +21,13 @@
         (click)="selectDrawingSize(drawingSize)" >
       </span>
 
-      <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()" [title]="getTooltip('undo')">undo</i>
+        <input style="display: none" type="file" #fileInput (change)="importPhotoFromFile($event)" accept="image/*"/>
+        <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="fileInput.click();"
+           [title]="getTooltip('load')">attach_file</i>
+        <i class="material-icons btn" *ngIf="enableRemoveImage && hasImage" (click)="removeImage()"
+           [title]="getTooltip('removeImage')">clear</i>
+
+        <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()" [title]="getTooltip('undo')">undo</i>
       <i class="material-icons btn" [class.disabled]="!canRedo" (click)="redo()" [title]="getTooltip('redo')">redo</i>
       <i class="material-icons btn" (click)="clearCanvas()" [title]="getTooltip('clear')">delete</i>
     </div>

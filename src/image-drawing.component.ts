@@ -9,6 +9,8 @@ import { fabric } from 'fabric';
 export class ImageDrawingComponent implements OnInit {
 
     @Input() public src?: string;
+    @Input() public width?: number;
+    @Input() public height?: number;
     @Input() public saveBtnText = 'Save';
     @Input() public cancelBtnText = 'Cancel';
     @Input() public loadingText = 'Loading…';
@@ -18,6 +20,8 @@ export class ImageDrawingComponent implements OnInit {
     @Input() public outputMimeType = 'image/jpeg';
     @Input() public outputQuality = 0.8;
     @Input() public imageScale = 1.0;
+    @Input() public enableRemoveImage = false;
+    @Input() public enableLoadAnotherImage = false;
     @Input() public enableTooltip = true;
     // TODO: Implement i18n
     @Input() public tooltipLanguage: 'en' | 'fr' = 'en';
@@ -32,7 +36,7 @@ export class ImageDrawingComponent implements OnInit {
     public canUndo = false;
     public canRedo = false;
 
-    public isLoading = true;
+    public isLoading = false;
     public hasError = false;
     public errorMessage = '';
 
@@ -49,6 +53,8 @@ export class ImageDrawingComponent implements OnInit {
         small: { en: 'Small', fr: 'Taille: petit' },
         medium: { en: 'Medium', fr: 'Taille: moyen' },
         large: { en: 'Large', fr: 'Taille: grand' },
+        load: { en: 'Load', fr: 'Charger' },
+        removeImage: { en: 'Remove image', fr: 'Supprimer l\'image' },
         undo: { en: 'Undo', fr: 'Annuler' },
         redo: { en: 'Redo', fr: 'Refaire' },
         clear: { en: 'Clear', fr: 'Effacer tout' },
@@ -76,70 +82,48 @@ export class ImageDrawingComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        const canvas = new fabric.Canvas('canvas', {
+        this.canvas = new fabric.Canvas('canvas', {
             hoverCursor: 'pointer',
             isDrawingMode: true,
         });
-        if (this.src !== undefined) {
-            let isFirstTry = true;
-            const imgEl = new Image();
-            imgEl.setAttribute('crossOrigin', 'anonymous');
-            imgEl.src = this.src;
-            imgEl.onerror = () => {
-                // Retry with cors proxy
-                if (isFirstTry) {
-                    imgEl.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
-                    isFirstTry = false;
-                } else {
-                    this.isLoading = false;
-                    this.hasError = true;
-                    this.errorMessage = this.errorText.replace('%@', this.src as string);
-                }
-            };
-            imgEl.onload = () => {
-                this.isLoading = false;
-                const fabricImg = new fabric.Image(imgEl);
-                fabricImg.scaleToWidth(imgEl.width * this.imageScale, false);
-                canvas.setBackgroundImage(fabricImg, ((img: HTMLImageElement) => {
-                    if (img !== null) {
-                        canvas.setWidth(img.width * this.imageScale);
-                        canvas.setHeight(img.height * this.imageScale);
-                    }
-                }), {
-                        crossOrigin: 'anonymous',
-                        originX: 'left',
-                        originY: 'top'
-                    });
-            };
+        this.canvas.backgroundColor = 'white';
+
+        if (this.src) {
+            this.importPhotoFromSrc(this.src);
+        } else {
+            if (!this.width || !this.height) {
+                throw new Error('No width or hight given !');
+            }
+
+            this.canvas.setWidth(this.width);
+            this.canvas.setHeight(this.height);
         }
 
-        canvas.on('path:created', (e) => {
+        this.canvas.on('path:created', () => {
             this.stack = [];
             this.setUndoRedo();
         });
 
-        this.canvas = canvas;
         this.selectTool(this.currentTool);
         this.selectColor(this.currentColor);
         this.selectDrawingSize(this.currentSize);
     }
 
     // Tools
-
     public selectTool(tool: string) {
         this.currentTool = tool;
     }
 
     public selectDrawingSize(size: string) {
         this.currentSize = size;
-        if (this.canvas !== null && this.canvas !== undefined) {
+        if (this.canvas) {
             this.canvas.freeDrawingBrush.width = this.drawingSize[size];
         }
     }
 
     public selectColor(color: string) {
         this.currentColor = color;
-        if (this.canvas !== null && this.canvas !== undefined) {
+        if (this.canvas) {
             this.canvas.freeDrawingBrush.color = this.ink[color];
         }
     }
@@ -159,7 +143,7 @@ export class ImageDrawingComponent implements OnInit {
     public redo() {
         if (this.canRedo) {
             const firstInStack = this.stack.splice(-1, 1)[0];
-            if (firstInStack !== null && firstInStack !== undefined) {
+            if (firstInStack) {
                 this.canvas.insertAt(firstInStack, this.canvas.getObjects().length - 1);
             }
             this.setUndoRedo();
@@ -167,7 +151,7 @@ export class ImageDrawingComponent implements OnInit {
     }
 
     public clearCanvas() {
-        if (this.canvas !== null && this.canvas !== undefined) {
+        if (this.canvas) {
             this.canvas.remove(...this.canvas.getObjects());
             this.setUndoRedo();
         }
@@ -194,5 +178,83 @@ export class ImageDrawingComponent implements OnInit {
     private setUndoRedo() {
         this.canUndo = this.canvas.getObjects().length > 0;
         this.canRedo = this.stack.length > 0;
+    }
+
+    public importPhotoFromFile(event: Event | any) {
+        if (event.target.files && event.target.files.length > 0) {
+            const file = event.target.files[0];
+            if (file.type.match('image.*')) {
+                const reader = new FileReader();
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(file);
+                reader.onload = (evtReader: any) => {
+                    if (evtReader.target.readyState == FileReader.DONE) {
+                        this.importPhotoFromSrc(evtReader.target.result);
+                        event.target.value = null;
+                    }
+                };
+
+            } else {
+                throw new Error('Not an image !');
+            }
+        }
+    }
+
+    public removeImage() {
+        this.canvas.backgroundImage = null;
+
+        if (this.width && this.height) {
+            this.canvas.setWidth(this.width);
+            this.canvas.setHeight(this.height);
+        }
+
+        this.canvas.renderAll();
+    }
+
+    public get hasImage(): boolean {
+        return !!this.canvas.backgroundImage;
+    }
+
+    private importPhotoFromSrc(src: string) {
+        this.isLoading = true;
+        let isFirstTry = true;
+        const imgEl = new Image();
+        imgEl.setAttribute('crossOrigin', 'anonymous');
+        imgEl.src = src;
+        imgEl.onerror = () => {
+            // Retry with cors proxy
+            if (isFirstTry) {
+                imgEl.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
+                isFirstTry = false;
+            } else {
+                this.isLoading = false;
+                this.hasError = true;
+                this.errorMessage = this.errorText.replace('%@', this.src as string);
+            }
+        };
+        imgEl.onload = () => {
+            this.isLoading = false;
+            const fabricImg = new fabric.Image(imgEl);
+
+            let width = imgEl.width * this.imageScale;
+            let height = imgEl.height * this.imageScale;
+
+            if (this.width && this.height) {
+                width = this.width;
+                height = this.height;
+            }
+
+            fabricImg.scaleToWidth(width, false);
+            this.canvas.setBackgroundImage(fabricImg, ((img: HTMLImageElement) => {
+                if (img !== null) {
+                    this.canvas.setWidth(width);
+                    this.canvas.setHeight(height);
+                }
+            }), {
+                crossOrigin: 'anonymous',
+                originX: 'left',
+                originY: 'top'
+            });
+        };
     }
 }
