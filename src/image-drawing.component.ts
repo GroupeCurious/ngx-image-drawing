@@ -19,7 +19,8 @@ export class ImageDrawingComponent implements OnInit {
     @Input() public enableTooltip = true;
     @Input() public showCancelButton = true;
 
-    @Input('i18n') public i18nUser: I18nInterface = null;
+    // @ts-ignore
+    @Input('i18n') public i18nUser: I18nInterface;
     @Input() public locale: string = 'en';
     /* @deprecated Use i18n.saveBtn */
     @Input() public saveBtnText = 'Save';
@@ -112,7 +113,7 @@ export class ImageDrawingComponent implements OnInit {
             this.i18n = i18nLanguages[this.locale];
         }
 
-        // FIXME remove after a while because properties are deprecated
+        // FIXME remove after a while because properties are now deprecated
         if (this.saveBtnText) {
             this.i18n.saveBtn = this.saveBtnText;
         }

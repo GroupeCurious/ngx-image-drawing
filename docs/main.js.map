@@ -1,0 +1,27 @@
+{
+    "version": 3,
+    "sources": [
+        "webpack:///./src/$_lazy_route_resource lazy namespace object",
+        "webpack:///./src/app/app.component.ts",
+        "webpack:///./src/app/app.module.ts",
+        "webpack:///./src/environments/environment.ts",
+        "webpack:///./src/main.ts",
+        "webpack:///jsdom (ignored)",
+        "webpack:///jsdom/lib/jsdom/living/generated/utils (ignored)",
+        "webpack:///jsdom/lib/jsdom/utils (ignored)"
+    ],
+    "names": [],
+    "mappings": ";;;;;;;;;AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA,EAAE;AACF;AACA,4CAA4C,WAAW;AACvD;AACA;AACA,4E;;;;;;;;;;;;;;;;;;;ACZ0C;AACN;AAsBpC;IAnBA;QAqBW,SAAI,GAAkB;YACzB,KAAK,EAAE;gBACH,KAAK,EAAE,OAAO;aACjB;SACJ,CAAC;IAKN,CAAC;IAHU,8BAAO,GAAd,UAAe,MAAM;QACjB,yDAAM,CAAC,MAAM,EAAE,WAAW,CAAC,CAAC;IAChC,CAAC;IAVQ,YAAY;QAnBxB,+DAAS,CAAC;YACP,QAAQ,EAAE,UAAU;YACpB,QAAQ,EAAE,00BAcW;SAExB,CAAC;OACW,YAAY,CAWxB;IAAD,mBAAC;CAAA;AAXwB;;;;;;;;;;;;;;;;;;;;;ACvBiC;AACjB;AACc;AAER;AAa/C;IAAA;IACA,CAAC;IADY,SAAS;QAXrB,8DAAQ,CAAC;YACN,YAAY,EAAE;gBACV,2DAAY;aACf;YACD,OAAO,EAAE;gBACL,uEAAa;gBACb,oEAAkB;aACrB;YACD,SAAS,EAAE,EAAE;YACb,SAAS,EAAE,CAAC,2DAAY,CAAC;SAC5B,CAAC;OACW,SAAS,CACrB;IAAD,gBAAC;CAAA;AADqB;;;;;;;;;;;;;ACjBtB;AAAA;AAAA,gFAAgF;AAChF,0EAA0E;AAC1E,gEAAgE;AAEzD,IAAM,WAAW,GAAG;IACvB,UAAU,EAAE,KAAK;CACpB,CAAC;AAEF;;;;;;GAMG;AACH,mEAAmE;;;;;;;;;;;;;ACfnE;AAAA;AAAA;AAAA;AAAA;AAA+C;AAC4B;AAE9B;AACY;AAEzD,IAAI,qEAAW,CAAC,UAAU,EAAE;IACxB,oEAAc,EAAE,CAAC;CACpB;AAED,gGAAsB,EAAE,CAAC,eAAe,CAAC,yDAAS,CAAC;KAC9C,KAAK,CAAC,aAAG,IAAI,cAAO,CAAC,KAAK,CAAC,GAAG,CAAC,EAAlB,CAAkB,CAAC,CAAC;;;;;;;;;;;;;;;;;;;;;;;;ACXtC,e;;;;;;;;;;;ACAA,e;;;;;;;;;;;ACAA,e",
+    "file": "main.js",
+    "sourcesContent": [
+        "function webpackEmptyAsyncContext(req) {\n\t// Here Promise.resolve().then() is used instead of new Promise() to prevent\n\t// uncaught exception popping up in devtools\n\treturn Promise.resolve().then(function() {\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t});\n}\nwebpackEmptyAsyncContext.keys = function() { return []; };\nwebpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;\nmodule.exports = webpackEmptyAsyncContext;\nwebpackEmptyAsyncContext.id = \"./src/$$_lazy_route_resource lazy recursive\";",
+        "import { Component } from '@angular/core';\nimport { saveAs } from 'file-saver';\nimport { I18nInterface } from 'ngx-image-drawing';\n\n@Component({\n    selector: 'app-root',\n    template: `\n        <h1><a target=\"_blank\" href=\"https://github.com/GroupeCurious/ngx-image-drawing\">ngx-image-drawing</a> demo app\n            !</h1>\n\n        <image-drawing width=\"800\" height=\"600\"\n                       borderCss=\"1px solid black\"\n                       [showCancelButton]=\"false\"\n                       saveBtnText=\"Save the image as JPEG !\"\n                       enableLoadAnotherImage=\"true\" enableRemoveImage=\"true\"\n                       src=\"https://images.unsplash.com/photo-1537984827217-96d3397ba7ec?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1349&q=80\"\n                       (save)=\"saveBtn($event)\"\n                       [i18n]=\"i18n\"\n                       [drawingSizes]=\"{ small: 5, medium: 10, large: 25, extra: 50 }\"\n        >\n        </image-drawing>`,\n    styles: []\n})\nexport class AppComponent {\n\n    public i18n: I18nInterface = {\n        sizes: {\n            extra: 'Extra'\n        }\n    };\n\n    public saveBtn($event) {\n        saveAs($event, 'image.jpg');\n    }\n}\n",
+        "import { BrowserModule } from '@angular/platform-browser';\nimport { NgModule } from '@angular/core';\nimport { ImageDrawingModule } from 'ngx-image-drawing';\n\nimport { AppComponent } from './app.component';\n\n@NgModule({\n    declarations: [\n        AppComponent\n    ],\n    imports: [\n        BrowserModule,\n        ImageDrawingModule\n    ],\n    providers: [],\n    bootstrap: [AppComponent]\n})\nexport class AppModule {\n}\n",
+        "// This file can be replaced during build by using the `fileReplacements` array.\n// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.\n// The list of file replacements can be found in `angular.json`.\n\nexport const environment = {\n    production: false\n};\n\n/*\n * For easier debugging in development mode, you can import the following file\n * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.\n *\n * This import should be commented out in production mode because it will have a negative impact\n * on performance if an error is thrown.\n */\n// import 'zone.js/dist/zone-error';  // Included with Angular CLI.\n",
+        "import { enableProdMode } from '@angular/core';\nimport { platformBrowserDynamic } from '@angular/platform-browser-dynamic';\n\nimport { AppModule } from './app/app.module';\nimport { environment } from './environments/environment';\n\nif (environment.production) {\n    enableProdMode();\n}\n\nplatformBrowserDynamic().bootstrapModule(AppModule)\n    .catch(err => console.error(err));\n",
+        "/* (ignored) */",
+        "/* (ignored) */",
+        "/* (ignored) */"
+    ],
+    "sourceRoot": ""
+}

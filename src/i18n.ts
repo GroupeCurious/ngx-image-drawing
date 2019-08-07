@@ -72,21 +72,21 @@ export const i18nLanguages: { [name: string]: I18nInterface } = {
 };
 
 export interface I18nInterface {
-    saveBtn: string;
-    cancelBtn: string;
+    saveBtn?: string;
+    cancelBtn?: string;
 
-    loadImage: string;
-    loading: string;
-    loadError: string;
-    removeImage: string;
+    loadImage?: string;
+    loading?: string;
+    loadError?: string;
+    removeImage?: string;
 
-    sizes: { [name: string]: string };
+    sizes?: { [name: string]: string };
 
-    undo: string;
-    redo: string;
-    clear: string;
+    undo?: string;
+    redo?: string;
+    clear?: string;
 
-    colors: { [name: string]: string };
+    colors?: { [name: string]: string };
 
-    tools: { [name: string]: string };
+    tools?: { [name: string]: string };
 }
