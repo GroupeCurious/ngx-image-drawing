@@ -190,20 +190,30 @@ export class ImageDrawingComponent implements OnInit {
         this.cancel.emit();
     }
 
-    public getTooltip(name: string): string {
-        if (this.enableTooltip) {
-            let str = name.split('.').reduce((o, i) => o[i], this.i18n as any);
+    public getTextTranslated(name: string): string {
+        let strOk = name.split('.').reduce((o, i) => o[i], this.i18n as any);
 
-            if (this.i18nUser) {
-                try {
-                    str = name.split('.').reduce((o, i) => o[i], this.i18nUser as any);
-                } catch (e) {
-                    if (!str) {
-                        console.error(name + ' translation not found !');
-                    }
+        if (this.i18nUser) {
+            try {
+                const str = name.split('.').reduce((o, i) => o[i], this.i18nUser as any);
+                if (str) {
+                    strOk = str;
                 }
+            } catch (e) {
+                // if we pass here, ignored
             }
-            return str ? str : '';
+        }
+
+        if (!strOk) {
+            console.error(name + ' translation not found !');
+        }
+
+        return strOk;
+    }
+
+    public getTooltipTranslated(name: string): string {
+        if (this.enableTooltip) {
+            return this.getTextTranslated(name)
         } else {
             return '';
         }
@@ -212,6 +222,7 @@ export class ImageDrawingComponent implements OnInit {
     private setUndoRedo() {
         this.canUndo = this.canvas.getObjects().length > 0;
         this.canRedo = this.stack.length > 0;
+        this.canvas.renderAll();
     }
 
     public importPhotoFromFile(event: Event | any) {
@@ -262,7 +273,7 @@ export class ImageDrawingComponent implements OnInit {
             } else {
                 this.isLoading = false;
                 this.hasError = true;
-                this.errorMessage = this.i18n.loadError.replace('%@', this.src as string);
+                this.errorMessage = this.getTextTranslated('loadError').replace('%@', this.src as string);
             }
         };
         imgEl.onload = () => {
