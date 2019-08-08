@@ -109,8 +109,8 @@ export class ImageDrawingComponent implements OnInit {
         this.selectColor(this.currentColor);
         this.selectDrawingSize(this.currentSize);
 
-        if (i18nLanguages[this.locale]) {
-            this.i18n = i18nLanguages[this.locale];
+        if (this.locale && i18nLanguages[this.locale.toLowerCase()]) {
+            this.i18n = i18nLanguages[this.locale.toLowerCase()];
         }
 
         // FIXME remove after a while because properties are now deprecated
