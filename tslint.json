@@ -9,6 +9,7 @@
         "disable-next-line": false,
         "object-literal-sort-keys": false,
         "max-line-length": false,
+        "no-trailing-whitespace": false,
         "ordered-imports": false
     }
 }
