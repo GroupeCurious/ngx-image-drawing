@@ -1,6 +1,6 @@
 {
     "name": "ngx-image-drawing",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "Angular module to draw on images",
     "main": "./bundles/ngx-image-drawing.umd.js",
     "module": "./ngx-image-drawing/ngx-image-drawing.es5.js",

@@ -9,7 +9,7 @@ import { I18nInterface } from 'ngx-image-drawing';
             <a target="_blank" href="https://github.com/GroupeCurious/ngx-image-drawing">ngx-image-drawing</a> demo app!
         </h1>
 
-        <image-drawing [width]="800" [height]="600" [forceSize]="false"
+        <image-drawing [width]="width" [height]="height"
                        borderCss="1px solid black"
                        [showCancelButton]="false"
                        [enableLoadAnotherImage]="true" [enableRemoveImage]="true"
@@ -26,6 +26,8 @@ import { I18nInterface } from 'ngx-image-drawing';
 export class AppComponent {
 
     public locale: string = 'en';
+    public width = window.innerWidth - 60;
+    public height = window.innerHeight - 250;
 
     public i18n: I18nInterface = {
         saveBtn: 'Save the image as JPEG !',
