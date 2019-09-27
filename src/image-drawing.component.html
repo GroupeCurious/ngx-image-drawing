@@ -1,10 +1,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
 <div class="loading" *ngIf="isLoading">
-  <ng-container *ngTemplateOutlet="loadingTemplate ? loadingTemplate : defaultLoading"></ng-container>
+    <ng-container *ngTemplateOutlet="loadingTemplate ? loadingTemplate : defaultLoading"></ng-container>
 </div>
 <div class="error" *ngIf="hasError">
-  <ng-container *ngTemplateOutlet="errorTemplate ? errorTemplate : defaultError"></ng-container>
+    <ng-container *ngTemplateOutlet="errorTemplate ? errorTemplate : defaultError"></ng-container>
 </div>
 
 <ng-template #defaultLoading><p>{{ getTextTranslated('loading') }}</p></ng-template>
@@ -14,43 +14,48 @@
     <canvas id="canvas"></canvas>
 </div>
 <div class="toolbar" *ngIf="!isLoading">
-  <div class="tools">
-    <div class="row">
-      <i class="material-icons btn" [class.selected]="currentTool == 'brush'" (click)="selectTool('brush')"
-         [title]="getTooltipTranslated('tools.brush')">brush</i>
-        <span *ngFor="let drawingSizeName of drawingSizesName" class="size btn"
-              [style.width.px]="drawingSizes[drawingSizeName] * 0.8 + 8"
-              [style.height.px]="drawingSizes[drawingSizeName] * 0.8 + 8"
-              [style.borderRadius.px]="drawingSizes[drawingSizeName] * 0.4 + 4"
-              [class.selected]="currentSize == drawingSizeName" [title]="getTooltipTranslated('sizes.' + drawingSizeName)"
-              (click)="selectDrawingSize(drawingSizeName)">
+    <div class="tools">
+        <div class="row">
+            <i class="material-icons btn" [class.selected]="currentTool == 'brush'" (click)="selectTool('brush')"
+               [title]="getTooltipTranslated('tools.brush')">brush</i>
+            <span *ngFor="let drawingSizeName of drawingSizesName" class="size btn"
+                  [style.width.px]="drawingSizes[drawingSizeName] * 0.8 + 8"
+                  [style.height.px]="drawingSizes[drawingSizeName] * 0.8 + 8"
+                  [style.borderRadius.px]="drawingSizes[drawingSizeName] * 0.4 + 4"
+                  [class.selected]="currentSize == drawingSizeName"
+                  [title]="getTooltipTranslated('sizes.' + drawingSizeName)"
+                  (click)="selectDrawingSize(drawingSizeName)">
       </span>
 
-        <input style="display: none" type="file" #fileInput (change)="importPhotoFromFile($event)" accept="image/*"/>
-        <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="fileInput.click();"
-           [title]="getTooltipTranslated('loadImage')">attach_file</i>
-        <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="importPhotoFromUrl()"
-           [title]="getTooltipTranslated('loadImageUrl')">insert_drive_file</i>
-        <i class="material-icons btn" *ngIf="enableRemoveImage && hasImage" (click)="removeImage()"
-           [title]="getTooltipTranslated('removeImage')">clear</i>
+            <input style="display: none" type="file" #fileInput (change)="importPhotoFromFile($event)"
+                   accept="image/*"/>
+            <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="fileInput.click();"
+               [title]="getTooltipTranslated('loadImage')">attach_file</i>
+            <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="importPhotoFromUrl()"
+               [title]="getTooltipTranslated('loadImageUrl')">insert_drive_file</i>
+            <i class="material-icons btn" *ngIf="enableRemoveImage && hasImage" (click)="removeImage()"
+               [title]="getTooltipTranslated('removeImage')">clear</i>
 
-        <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()" [title]="getTooltipTranslated('undo')">undo</i>
-      <i class="material-icons btn" [class.disabled]="!canRedo" (click)="redo()" [title]="getTooltipTranslated('redo')">redo</i>
-      <i class="material-icons btn" (click)="clearCanvas()" [title]="getTooltipTranslated('clear')">delete</i>
-    </div>
-    <div class="row">
-        <div *ngFor="let colorName of colorsName" [class.selected]="currentColor == colorName" class="color"
-             [ngClass]="colorName"
-             [style.background]="colors[colorName]" [title]="getTooltipTranslated('colors.' + colorName)"
-             (click)="selectColor(colorName)">
+            <i class="material-icons btn" [class.disabled]="!canUndo" (click)="undo()"
+               [title]="getTooltipTranslated('undo')">undo</i>
+            <i class="material-icons btn" [class.disabled]="!canRedo" (click)="redo()"
+               [title]="getTooltipTranslated('redo')">redo</i>
+            <i class="material-icons btn" (click)="clearCanvas()" [title]="getTooltipTranslated('clear')">delete</i>
+        </div>
+        <div class="row">
+            <div *ngFor="let colorName of colorsName" [class.selected]="currentColor == colorName" class="color"
+                 [ngClass]="colorName"
+                 [style.background]="colors[colorName]" [title]="getTooltipTranslated('colors.' + colorName)"
+                 (click)="selectColor(colorName)">
+            </div>
         </div>
     </div>
-  </div>
-  <div class="buttons">
-      <a href="#" class="button btn-primary" (click)="saveImage(); $event.preventDefault()">{{ getTextTranslated('saveBtn') }}</a>
-      <a href="#" class="button btn-light" *ngIf="showCancelButton"
-         (click)="cancelAction(); $event.preventDefault()">{{ getTextTranslated('cancelBtn') }}</a>
-  </div>
-  <!-- Any additional toolbar buttons to be projected by the consuming app -->
-  <ng-content></ng-content>
+    <div class="buttons">
+        <a href="#" class="button btn-primary"
+           (click)="saveImage(); $event.preventDefault()">{{ getTextTranslated('saveBtn') }}</a>
+        <a href="#" class="button btn-light" *ngIf="showCancelButton"
+           (click)="cancelAction(); $event.preventDefault()">{{ getTextTranslated('cancelBtn') }}</a>
+    </div>
+    <!-- Any additional toolbar buttons to be projected by the consuming app -->
+    <ng-content></ng-content>
 </div>
