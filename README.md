@@ -62,6 +62,7 @@ You can now use in a component like so
 - `tooltipLanguage: string?` : Language of tooltip (`en` or `fr`) (default value: `en`)
 - `width: number?` : Width of the canvas (needed if no `src` given)
 - `height: number?` : Height of the canvas (needed if no `src` given)
+- `forceSize: boolean` : Force the canvas to width and height of image or with those specified (default `true`)
 - `borderCss: string?` : Add a border to the canvas in CSS (default value: `none`, example: `1px solib black`)
 - `enableRemoveImage: boolean` : Enable the option to remove the image loaded (default `false`)
 - `enableLoadAnotherImage: boolean` : Enable the option to load another image (default `false`)

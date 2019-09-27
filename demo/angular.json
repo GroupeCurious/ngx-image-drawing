@@ -20,6 +20,7 @@
                     "options": {
                         "outputPath": "../docs",
                         "index": "src/index.html",
+                        "baseHref": "/ngx-image-drawing/",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
