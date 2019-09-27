@@ -29,6 +29,8 @@
         <input style="display: none" type="file" #fileInput (change)="importPhotoFromFile($event)" accept="image/*"/>
         <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="fileInput.click();"
            [title]="getTooltipTranslated('loadImage')">attach_file</i>
+        <i class="material-icons btn" *ngIf="enableLoadAnotherImage && !hasImage" (click)="importPhotoFromUrl()"
+           [title]="getTooltipTranslated('loadImageUrl')">insert_drive_file</i>
         <i class="material-icons btn" *ngIf="enableRemoveImage && hasImage" (click)="removeImage()"
            [title]="getTooltipTranslated('removeImage')">clear</i>
 

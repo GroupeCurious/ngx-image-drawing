@@ -2,10 +2,11 @@ export const I18nFr: I18nInterface = {
     saveBtn: 'Enregistrer',
     cancelBtn: 'Annuler',
 
-    loadImage: 'Charger une image',
+    loadImage: 'Charger une image depuis votre PC',
+    loadImageUrl: 'Charger une image depuis une URL',
     loading: 'Chargement',
     loadError: 'Erreur de chargement %@',
-    removeImage: 'supprimer l\'image',
+    removeImage: 'Supprimer l\'image',
 
     sizes: {
         small: 'Petit',
@@ -37,6 +38,7 @@ export const I18nEn: I18nInterface = {
     cancelBtn: 'Cancel',
 
     loadImage: 'Load image',
+    loadImageUrl: 'Load image from URL',
     loading: 'Loading',
     loadError: 'Error loading %@',
     removeImage: 'Remove image',
@@ -76,6 +78,7 @@ export interface I18nInterface {
     cancelBtn?: string;
 
     loadImage?: string;
+    loadImageUrl?: string;
     loading?: string;
     loadError?: string;
     removeImage?: string;

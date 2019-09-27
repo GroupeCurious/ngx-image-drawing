@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
 import { fabric } from 'fabric';
 import { I18nEn, I18nInterface, i18nLanguages } from './i18n';
 
@@ -7,13 +7,14 @@ import { I18nEn, I18nInterface, i18nLanguages } from './i18n';
     styleUrls: ['./image-drawing.component.scss'],
     templateUrl: './image-drawing.component.html'
 })
-export class ImageDrawingComponent implements OnInit {
+export class ImageDrawingComponent implements OnInit, OnChanges {
 
     @Input() public src?: string;
     @Input() public imageScale = 1.0;
     @Input() public width?: number;
     @Input() public height?: number;
 
+    @Input() public forceSize = true;
     @Input() public enableRemoveImage = false;
     @Input() public enableLoadAnotherImage = false;
     @Input() public enableTooltip = true;
@@ -229,15 +230,7 @@ export class ImageDrawingComponent implements OnInit {
         if (event.target.files && event.target.files.length > 0) {
             const file = event.target.files[0];
             if (file.type.match('image.*')) {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (evtReader: any) => {
-                    if (evtReader.target.readyState == FileReader.DONE) {
-                        this.importPhotoFromSrc(evtReader.target.result);
-                        event.target.value = null;
-                    }
-                };
-
+                this.importPhotoFromBlob(file);
             } else {
                 throw new Error('Not an image !');
             }
@@ -283,16 +276,25 @@ export class ImageDrawingComponent implements OnInit {
             let width = imgEl.width * this.imageScale;
             let height = imgEl.height * this.imageScale;
 
-            if (this.width && this.height) {
+            if (this.width) {
                 width = this.width;
+            }
+            if (this.height) {
                 height = this.height;
             }
 
             fabricImg.scaleToWidth(width, false);
+            fabricImg.scaleToHeight(height, false);
+
             this.canvas.setBackgroundImage(fabricImg, ((img: HTMLImageElement) => {
                 if (img !== null) {
-                    this.canvas.setWidth(width);
-                    this.canvas.setHeight(height);
+                    if (this.forceSize) {
+                        this.canvas.setWidth(width);
+                        this.canvas.setHeight(height);
+                    } else {
+                        this.canvas.setWidth(fabricImg.getScaledWidth());
+                        this.canvas.setHeight(fabricImg.getScaledHeight());
+                    }
                 }
             }), {
                 crossOrigin: 'anonymous',
@@ -300,5 +302,32 @@ export class ImageDrawingComponent implements OnInit {
                 originY: 'top'
             });
         };
+    }
+
+    private importPhotoFromBlob(file: Blob | File) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (evtReader: any) => {
+            if (evtReader.target.readyState == FileReader.DONE) {
+                this.importPhotoFromSrc(evtReader.target.result);
+            }
+        };
+    }
+
+    public importPhotoFromUrl() {
+        const url = prompt(this.getTooltipTranslated('loadImageUrl'));
+        if (url) {
+            this.importPhotoFromSrc(url);
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes.src && !changes.src.firstChange && changes.src.currentValue) {
+            if (typeof changes.src.currentValue === 'string') {
+                this.importPhotoFromSrc(changes.src.currentValue);
+            } else if (changes.src.currentValue instanceof Blob) {
+                this.importPhotoFromBlob(changes.src.currentValue);
+            }
+        }
     }
 }
