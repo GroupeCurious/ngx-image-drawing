@@ -3,7 +3,7 @@
     "version": "1.0.2",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "ng serve --host 0.0.0.0 --disableHostCheck",
         "build": "ng build --configuration production",
         "test": "ng test",
         "lint": "ng lint"
