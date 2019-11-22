@@ -359,7 +359,7 @@ export class ImageDrawingComponent implements OnInit, OnChanges {
         imgEl.onerror = () => {
             // Retry with cors proxy
             if (isFirstTry) {
-                imgEl.src = 'http://cors-anywhere.herokuapp.com/' + this.src;
+                imgEl.src = 'https://cors-anywhere.herokuapp.com/' + this.src;
                 isFirstTry = false;
             } else {
                 this.isLoading = false;
