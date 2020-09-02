@@ -317,7 +317,7 @@ export class ImageDrawingComponent implements OnInit, OnChanges {
     private setUndoRedo() {
         this.canUndo = this.canvas.getObjects().length > 0;
         this.canRedo = this.stack.length > 0;
-        this.canvas.renderAll();
+        // this.canvas.renderAll();
     }
 
     public importPhotoFromFile(event: Event | any) {
