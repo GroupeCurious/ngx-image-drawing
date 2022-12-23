@@ -1,4 +1,8 @@
-# Ngx Image Drawing
+> **Warning**  
+> **Project not maintained**  
+> We recommend you migrate to another solution such as : https://pqina.nl/pintura
+
+## Ngx Image Drawing
 
 ![Screenshot](.github/screenshot.jpg)
 
