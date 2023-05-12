@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, TemplateRef, NgZone } from '@angular/core';
 import { fabric } from 'fabric';
 import { I18nEn, I18nInterface, i18nLanguages } from './i18n';
 import { Observable, of } from 'rxjs';
@@ -81,7 +81,7 @@ export class ImageDrawingComponent implements OnInit, OnChanges {
 
     private imageUsed?: fabric.Image;
 
-    constructor() {
+    constructor(private zone:NgZone) {
     }
 
     public ngOnInit(): void {
@@ -263,18 +263,18 @@ export class ImageDrawingComponent implements OnInit, OnChanges {
             ).subscribe(() => {
                 canvasScaled.renderAll();
                 canvasScaled.getElement().toBlob(
-                    (data: Blob) => {
+                    (data: Blob) =>this.zone.run(() {
                         this.save.emit(data);
-                    },
+                    }),
                     this.outputMimeType,
                     this.outputQuality
                 );
             });
         } else {
             this.canvas.getElement().toBlob(
-                (data: Blob) => {
+                (data: Blob) => this.zone.run((){
                     this.save.emit(data);
-                },
+                }),
                 this.outputMimeType,
                 this.outputQuality
             );
